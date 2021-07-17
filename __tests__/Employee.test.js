@@ -9,25 +9,25 @@ test('creates an employee object', () => {
     expect(employee.managerId).toBe(1);
 })
 
-test('gets employees name as an object', () => {
+test('gets employees first name as an object', () => {
     const employee = new Employee(('Dave', 'Doe', 'Engineer', 1));
 
     expect(employee.getFirstName()).toHaveProperty('firstName');
 })
 
-test('gets employees email as an object', () => {
+test('gets employees last name as an object', () => {
     const employee = new Employee(('Dave', 'Doe', 'Engineer', 1));
 
     expect(employee.getLastName()).toHaveProperty('lastName');
 })
 
-test('gets employees id as an object', () => {
+test('gets employees role as an object', () => {
     const employee = new Employee(('Dave', 'Doe', 'Engineer', 1));
 
     expect(employee.getRole()).toHaveProperty('role');
 })
 
-test('gets employees role as an object', () => {
+test('gets employees manager id as an object', () => {
     const employee = new Employee(('Dave', 'Doe', 'Engineer', 1));
 
     expect(employee.getManagerId()).toHaveProperty('managerId');
