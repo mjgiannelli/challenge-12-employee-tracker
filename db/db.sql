@@ -1,0 +1,3 @@
+-- add drop db if exits
+-- create database
+-- use database
