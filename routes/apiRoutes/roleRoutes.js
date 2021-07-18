@@ -19,7 +19,7 @@ router.get('/roles', (req, res) => {
         });
     });
 });
-// create a get route to view the total utilized budget of a department (combined salaries of all employees in that department)
+
 // create a post route to add
 router.post('/role', ({ body }, res) => {
     const errors = inputCheck(body, 'title', 'salary', 'department_id');
