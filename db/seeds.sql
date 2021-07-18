@@ -1,6 +1,6 @@
 -- insert into tables values for testing purposes
 
-INSERT INTO departments (name)
+INSERT INTO departments (dept_name)
 VALUES
 ('Executive'),
 ('Finance'),

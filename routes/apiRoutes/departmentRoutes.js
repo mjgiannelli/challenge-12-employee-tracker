@@ -26,7 +26,7 @@ router.delete('/department/:id', (req, res) => {
 
     db.query(sql, params, (err, result) => {
         if (err) {
-            res.statusMessage(400).json({ error: res.message});
+            res.statusMessage(400).json({ error: res.message });
         } else if (!result.affectedRows) {
             res.json({
                 message: 'Department not found'
@@ -42,7 +42,28 @@ router.delete('/department/:id', (req, res) => {
 });
 
 // create a post route to add
+router.post('/department', ({ body }, res) => {
+    const errors = inputCheck(body, 'name');
+    if (errors) {
+        res.status(400).json({ error: errors });
+        return;
+    }
 
+    const sql = `INSERT INTO departments (name)
+    VALUES (?)`;
+    const params = [body.name];
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: body
+        });
+    });
+});
 
 // export router
 module.exports = router;
