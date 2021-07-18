@@ -45,5 +45,26 @@ router.post('/role', ({ body }, res) => {
 });
 
 // create a delete route
+router.delete('/role/:id', (req, res) => {
+    const sql = `DELETE FROM roles WHERE id = ?`;
+    const params = [req.params.id];
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.statusMessage(400).json({ error: res.message });
+        } else if (!result.affectedRows) {
+            res.json({
+                message: 'Role not found'
+            });
+        } else {
+            res.json({
+                message: 'deleted',
+                changes: result.affectedRows,
+                id: req.params.id
+            });
+        }
+    });
+});
+
 // export router
 module.exports = router;
