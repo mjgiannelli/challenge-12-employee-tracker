@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
 
-// create a get route to select all 
+// create a get route to select all per mock up
 router.get('/employees', (req, res) => {
     const sql = `SELECT e.id, 
     e.first_name, 
@@ -103,8 +103,62 @@ router.delete('/employee/:id', (req, res) => {
 });
 
 // create a put route to update an employee's role
+router.put('/employee/:id', (req, res) => {
+    const errors = inputCheck(req.body, 'role_id');
+    if(errors) {
+        res.status(400).json({ error: errors});
+        return;
+    }
+
+    const sql = `UPDATE employees SET role_id = ? WHERE id = ?`;
+    const params = [req.body.role_id, req.params.id];
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({error: err.message});
+        } else if (!result.affectedRows) {
+            res.json({
+                message: 'Employee not found'
+            });
+        } else {
+            res.json({
+                message:'success',
+                data: req.body,
+                changes: result.affectedRows
+            });
+        }
+    });
+});
+
 
 // create a put route to update an employee's manager (BONUS)
+router.put('/employee/:id', (req, res) => {
+    const errors = inputCheck(req.body, 'manager_id');
+    if(errors) {
+        res.status(400).json({ error: errors});
+        return;
+    }
+
+    const sql = `UPDATE employees SET role_id = ? WHERE id = ?`;
+    const params = [req.body.manager_id, req.params.id];
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({error: err.message});
+        } else if (!result.affectedRows) {
+            res.json({
+                message: 'Employee not found'
+            });
+        } else {
+            res.json({
+                message:'success',
+                data: req.body,
+                changes: result.affectedRows
+            });
+        }
+    });
+});
+
 
 // export router
 module.exports = router;
