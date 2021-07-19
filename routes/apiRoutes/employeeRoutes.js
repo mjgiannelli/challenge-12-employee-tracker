@@ -30,8 +30,48 @@ router.get('/employees', (req, res) => {
     });
 });
 
+// create a get route to view the total utilized budget of a department (combined salaries of all employees in that department)
+router.get('/payroll', (req, res) => {
+    const sql = `SELECT  departments.dept_name as department,
+    SUM(roles.salary) as salary
+    FROM employees
+    JOIN roles ON employees.role_id = roles.id
+    JOIN departments ON roles.department_id = departments.id
+    GROUP BY department;`;
+
+    db.query(sql, (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    });
+});
 
 // create a get route to view all employees by department (BONUS)
+router.get('/employees-dept', (req, res) => {
+    const sql = `SELECT first_name, 
+    last_name, 
+    departments.dept_name as department
+    FROM employees
+    JOIN roles ON employees.role_id = roles.id
+    JOIN departments ON roles.department_id = departments.id
+    ORDER BY department;`;
+
+    db.query(sql, (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    });
+});
 
 // create a get route to view all employees by manager (BONUS)
 router.get('/managersgroup', (req, res) => {
@@ -105,8 +145,8 @@ router.delete('/employee/:id', (req, res) => {
 // create a put route to update an employee's role
 router.put('/employee-role/:id', (req, res) => {
     const errors = inputCheck(req.body, 'role_id');
-    if(errors) {
-        res.status(400).json({ error: errors});
+    if (errors) {
+        res.status(400).json({ error: errors });
         return;
     }
 
@@ -115,14 +155,14 @@ router.put('/employee-role/:id', (req, res) => {
 
     db.query(sql, params, (err, result) => {
         if (err) {
-            res.status(400).json({error: err.message});
+            res.status(400).json({ error: err.message });
         } else if (!result.affectedRows) {
             res.json({
                 message: 'Employee not found'
             });
         } else {
             res.json({
-                message:'success',
+                message: 'success',
                 data: req.body,
                 changes: result.affectedRows
             });
@@ -134,8 +174,8 @@ router.put('/employee-role/:id', (req, res) => {
 // create a put route to update an employee's manager (BONUS)
 router.put('/employee-manager/:id', (req, res) => {
     const errors = inputCheck(req.body, 'manager_id');
-    if(errors) {
-        res.status(400).json({ error: errors});
+    if (errors) {
+        res.status(400).json({ error: errors });
         return;
     }
 
@@ -144,14 +184,14 @@ router.put('/employee-manager/:id', (req, res) => {
 
     db.query(sql, params, (err, result) => {
         if (err) {
-            res.status(400).json({error: err.message});
+            res.status(400).json({ error: err.message });
         } else if (!result.affectedRows) {
             res.json({
                 message: 'Employee not found'
             });
         } else {
             res.json({
-                message:'success',
+                message: 'success',
                 data: req.body,
                 changes: result.affectedRows
             });
