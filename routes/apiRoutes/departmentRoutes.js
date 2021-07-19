@@ -65,8 +65,5 @@ router.post('/department', ({ body }, res) => {
     });
 });
 
-// create a get route to view the total utilized budget of a department (combined salaries of all employees in that department)
-router.post('/budget', )
-
 // export router
 module.exports = router;
