@@ -19,8 +19,8 @@ router.get('/employees', (req, res) => {
     LEFT JOIN departments ON roles.department_id = departments.id`;
 
     db.query(sql, (err, rows) => {
-        if(err) {
-            res.status(500).json({error: err.message });
+        if (err) {
+            res.status(500).json({ error: err.message });
             return;
         }
         res.json({
@@ -34,6 +34,24 @@ router.get('/employees', (req, res) => {
 // create a get route to view all employees by department
 
 // create a get route to view all employees by manager
+router.get('/managersgroup', (req, res) => {
+    const sql = `SELECT concat(e.first_name, ' ', e.last_name) AS employee,
+    concat(m.first_name, ' ', m.last_name) AS manager
+    FROM employees e
+    LEFT JOIN employees m ON m.id = e.manager_id
+    ORDER BY manager`;
+
+    db.query(sql, (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    });
+});
 
 // create a post route to add
 
