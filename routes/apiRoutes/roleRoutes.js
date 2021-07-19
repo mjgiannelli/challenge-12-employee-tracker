@@ -6,7 +6,12 @@ const inputCheck = require('../../utils/inputCheck');
 
 // create a get route to select all
 router.get('/roles', (req, res) => {
-    const sql = `SELECT * FROM roles;`;
+    const sql = `SELECT roles.id,
+    title,
+    departments.dept_name AS department,
+    salary
+    FROM roles
+    LEFT JOIN departments ON roles.department_id = departments.id;`;
 
     db.query(sql, (err, rows) => {
         if (err) {

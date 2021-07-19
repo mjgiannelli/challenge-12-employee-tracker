@@ -9,7 +9,6 @@ router.get('/employees', (req, res) => {
     const sql = `SELECT e.id, 
     e.first_name, 
     e.last_name,
-    e.manager_id,
     roles.title AS title, 
     departments.dept_name AS department, 
     roles.salary AS salary,
