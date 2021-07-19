@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require('../../db/connection');
 const inputCheck = require('../../utils/inputCheck');
 
-// create a get route to select all  (left join department to pull in name & left join role to pull in job title and salary)
+// create a get route to select all 
 router.get('/employees', (req, res) => {
     const sql = `SELECT e.id, 
     e.first_name, 
@@ -31,9 +31,9 @@ router.get('/employees', (req, res) => {
 });
 
 
-// create a get route to view all employees by department
+// create a get route to view all employees by department (BONUS)
 
-// create a get route to view all employees by manager
+// create a get route to view all employees by manager (BONUS)
 router.get('/managersgroup', (req, res) => {
     const sql = `SELECT concat(e.first_name, ' ', e.last_name) AS employee,
     concat(m.first_name, ' ', m.last_name) AS manager
@@ -54,10 +54,37 @@ router.get('/managersgroup', (req, res) => {
 });
 
 // create a post route to add
+router.post('/employee', ({ body }, res) => {
+    const errors = inputCheck(body, 'first_name', 'last_name', 'role_id', 'manager_id');
+
+    if (errors) {
+        res.status(400).json({ error: errors });
+        return;
+    }
+
+    const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id)
+    VALUES (?,?,?,?)`;
+
+    const params = [body.first_name, body.last_name, body.role_id, body.manager_id];
+
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: body
+        });
+    });
+});
+
 
 // create a delete route
 
-// create a put route to update an employee
+// create a put route to update an employee's role
+
+// create a put route to update an employee's manager (BONUS)
 
 // export router
 module.exports = router;
