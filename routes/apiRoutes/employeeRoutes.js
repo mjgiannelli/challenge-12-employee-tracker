@@ -37,7 +37,8 @@ router.get('/payroll', (req, res) => {
     FROM employees
     JOIN roles ON employees.role_id = roles.id
     JOIN departments ON roles.department_id = departments.id
-    GROUP BY department;`;
+    GROUP BY department
+    ORDER BY salary DESC`;
 
     db.query(sql, (err, rows) => {
         if (err) {
