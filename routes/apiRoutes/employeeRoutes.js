@@ -30,6 +30,24 @@ router.get('/employees', (req, res) => {
     });
 });
 
+//get employee ID using first name
+router.get('/employee/:first_name', (req, res) => {
+    const sql = `SELECT id FROM employees WHERE first_name = ?`;
+    const params = [req.params.first_name];
+
+    db.query(sql, params, (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    });
+});
+
+
 // create a get route to view the total utilized budget of a department (combined salaries of all employees in that department)
 router.get('/payroll', (req, res) => {
     const sql = `SELECT  departments.dept_name as department,
