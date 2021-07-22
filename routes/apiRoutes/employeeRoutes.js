@@ -30,7 +30,7 @@ router.get('/employees', (req, res) => {
     });
 });
 
-//get employee ID using first name
+//get employee ID using first name & last name
 router.get('/employee/:first_name/:last_name', (req, res) => {
     const sql = `SELECT id FROM employees WHERE first_name = ? AND last_name = ?`;
     const params = [req.params.first_name, req.params.last_name];
