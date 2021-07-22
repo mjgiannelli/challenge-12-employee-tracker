@@ -25,6 +25,23 @@ router.get('/roles', (req, res) => {
     });
 });
 
+// get role id
+router.get('/role/:title', (req, res) => {
+    const sql = `SELECT id FROM roles WHERE title = ?`;
+    const params = [req.params.title];
+
+    db.query(sql, params, (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    });
+});
+
 // create a post route to add
 router.post('/role', ({ body }, res) => {
     const errors = inputCheck(body, 'title', 'salary', 'department_id');
