@@ -2,14 +2,19 @@
   "name": "challenge-12-employee-tracker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mjgiannelli/challenge-12-employee-tracker.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -22,8 +27,5 @@
     "inquirer": "^8.1.2",
     "mysql2": "^2.2.5",
     "node-fetch": "^2.6.1"
-  },
-  "devDependencies": {
-    "jest": "^27.0.6"
   }
 }
