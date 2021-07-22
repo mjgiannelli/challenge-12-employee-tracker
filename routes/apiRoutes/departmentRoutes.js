@@ -19,6 +19,23 @@ router.get('/departments', (req, res) => {
     });
 });
 
+// get a dept id using department name
+router.get('/department/:dept_name', (req, res) => {
+    const sql = `SELECT id FROM departments WHERE dept_name = ?`;
+    const params = [req.params.dept_name];
+
+    db.query(sql, params, (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    });
+});
+
 // create a delete route
 router.delete('/department/:id', (req, res) => {
     const sql = `DELETE FROM departments WHERE id = ?`;
@@ -43,15 +60,15 @@ router.delete('/department/:id', (req, res) => {
 
 // create a post route to add
 router.post('/department', ({ body }, res) => {
-    const errors = inputCheck(body, 'name');
+    const errors = inputCheck(body, 'dept_name');
     if (errors) {
         res.status(400).json({ error: errors });
         return;
     }
 
-    const sql = `INSERT INTO departments (name)
+    const sql = `INSERT INTO departments (dept_name)
     VALUES (?)`;
-    const params = [body.name];
+    const params = [body.dept_name];
 
     db.query(sql, params, (err, result) => {
         if (err) {

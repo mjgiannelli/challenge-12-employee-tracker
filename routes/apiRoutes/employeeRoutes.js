@@ -30,6 +30,24 @@ router.get('/employees', (req, res) => {
     });
 });
 
+//get employee ID using first name & last name
+router.get('/employee/:first_name/:last_name', (req, res) => {
+    const sql = `SELECT id FROM employees WHERE first_name = ? AND last_name = ?`;
+    const params = [req.params.first_name, req.params.last_name];
+
+    db.query(sql, params, (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({
+            message: 'success',
+            data: rows
+        });
+    });
+});
+
+
 // create a get route to view the total utilized budget of a department (combined salaries of all employees in that department)
 router.get('/payroll', (req, res) => {
     const sql = `SELECT  departments.dept_name as department,
@@ -37,7 +55,8 @@ router.get('/payroll', (req, res) => {
     FROM employees
     JOIN roles ON employees.role_id = roles.id
     JOIN departments ON roles.department_id = departments.id
-    GROUP BY department;`;
+    GROUP BY department
+    ORDER BY salary DESC`;
 
     db.query(sql, (err, rows) => {
         if (err) {
